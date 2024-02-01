@@ -42,17 +42,11 @@ public class Bootcamp {
         return devsInscritos;
     }
 
-    public void setDevsInscritos(Set<Dev> devsInscritos) {
-        this.devsInscritos = devsInscritos;
-    }
 
     public Set<Conteudo> getConteudos() {
         return conteudos;
     }
 
-    public void setConteudos(Set<Conteudo> conteudos) {
-        this.conteudos = conteudos;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -65,5 +59,17 @@ public class Bootcamp {
     @Override
     public int hashCode() {
         return Objects.hash(nome, descricao, dataInicial, dataFinal, devsInscritos, conteudos);
+    }
+
+    @Override
+    public String toString() {
+        return "Bootcamp{" +
+                "nome='" + nome + '\'' +
+                ", descricao='" + descricao + '\'' +
+                ", dataInicial=" + dataInicial +
+                ", dataFinal=" + dataFinal +
+                ", devsInscritos=" + devsInscritos +
+                ", conteudos=" + conteudos +
+                '}';
     }
 }

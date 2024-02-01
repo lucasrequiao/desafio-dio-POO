@@ -2,6 +2,7 @@ package br.com.dio.desafio.dominio;
 
 import java.util.LinkedHashSet;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 
 public class Dev {
@@ -10,13 +11,23 @@ public class Dev {
     private Set<Conteudo> conteudosConcluidos = new LinkedHashSet<>();
 
     public void inscreverBootcamp(Bootcamp bootcamp){
-
+        this.conteudosInscritos.addAll(bootcamp.getConteudos());
+        bootcamp.getDevsInscritos().add(this);
     }
     public void progredir(){
-
+        Optional<Conteudo> primeiroConteudo = this.conteudosInscritos.stream().findFirst();
+        if(primeiroConteudo.isPresent()){
+            this.conteudosConcluidos.add(primeiroConteudo.get());
+            this.conteudosInscritos.remove(primeiroConteudo.get());
+        } else {
+            System.err.println("Você não está inscrito em nenhum curso!");
+        }
     }
-    public void calcularTotalXp(){
-
+    public double calcularTotalXp(){
+        return this.conteudosConcluidos
+                .stream()
+                .mapToDouble(Conteudo::CalcularXp)
+                .sum();
     }
 
     public String getNome() {
@@ -31,17 +42,10 @@ public class Dev {
         return conteudosInscritos;
     }
 
-    public void setConteudosInscritos(Set<Conteudo> conteudosInscritos) {
-        this.conteudosInscritos = conteudosInscritos;
-    }
-
     public Set<Conteudo> getConteudosConcluidos() {
         return conteudosConcluidos;
     }
 
-    public void setConteudosConcluidos(Set<Conteudo> conteudosConcluidos) {
-        this.conteudosConcluidos = conteudosConcluidos;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -54,5 +58,12 @@ public class Dev {
     @Override
     public int hashCode() {
         return Objects.hash(nome, conteudosInscritos, conteudosConcluidos);
+    }
+
+    @Override
+    public String toString() {
+        return "Dev{" +
+                "nome='" + nome + '\'' +
+                '}';
     }
 }
